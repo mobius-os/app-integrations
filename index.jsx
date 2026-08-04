@@ -199,7 +199,8 @@ export default function Connections({ appId, token }) {
             </div>
           ) : loadError && connections === null ? (
             <div className="cx-notice cx-notice--danger">
-              Couldn't load connections.{' '}
+              Couldn't load connections
+              {loadError.message ? ` — ${loadError.message}` : ''}.{' '}
               <button type="button" className="cx-linklike" onClick={load}>
                 Try again
               </button>
