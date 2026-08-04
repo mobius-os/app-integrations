@@ -34,11 +34,14 @@ export const CSS = `
   border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); color: var(--danger); }
 .cx-btn--ghost { background: transparent; }
 
-.cx-card { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 14px;
+.cx-card { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 14px 8px 0;
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  text-align: left; cursor: pointer; font-family: var(--font); color: var(--text);
+  font-family: var(--font); color: var(--text);
   transition: border-color .15s, background .15s; }
 .cx-card:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+.cx-card-open { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px;
+  padding: 5px 0 5px 14px; border: 0; background: transparent; text-align: left;
+  cursor: pointer; font-family: var(--font); color: var(--text); border-radius: 12px 0 0 12px; }
 .cx-card.is-off .cx-card-name, .cx-card.is-off .cx-card-meta { opacity: .6; }
 .cx-dot { flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; margin-top: 1px; }
 .cx-dot--green { background: var(--green); }

@@ -222,27 +222,41 @@ export default function Connections({ appId, token }) {
             </div>
           ) : (
             rows.map(connection => (
-              <button type="button" key={connection.id}
-                className={`cx-card${connection.enabled ? '' : ' is-off'}`}
-                onClick={() => open({ name: 'detail', id: connection.id })}>
-                <span className={`cx-dot cx-dot--${dotColor(connection)}`} />
-                <span className="cx-card-main">
-                  <span className="cx-card-name">{connection.name}</span>
-                  <span className="cx-card-endpoint">
-                    {displayEndpoint(connection.url)}
-                  </span>
-                  <span className="cx-card-meta">
-                    {connection.enabled ? 'On' : 'Off'}
-                    {' · '}
-                    <span className={connection.status === 'error' ? 'is-warn' : ''}>
-                      {healthText(connection)}
+              <div key={connection.id}
+                className={`cx-card${connection.enabled ? '' : ' is-off'}`}>
+                <button type="button" className="cx-card-open"
+                  aria-label={`Open ${connection.name}`}
+                  onClick={() => open({ name: 'detail', id: connection.id })}>
+                  <span className={`cx-dot cx-dot--${dotColor(connection)}`} />
+                  <span className="cx-card-main">
+                    <span className="cx-card-name">{connection.name}</span>
+                    <span className="cx-card-endpoint">
+                      {displayEndpoint(connection.url)}
                     </span>
-                    {' · '}{connection.tool_count} tool{connection.tool_count === 1 ? '' : 's'}
-                    {connection.est_tokens ? ` · ${costLabel(connection.est_tokens)}` : ''}
+                    <span className="cx-card-meta">
+                      {connection.enabled ? 'On' : 'Off'}
+                      {' · '}
+                      <span className={connection.status === 'error' ? 'is-warn' : ''}>
+                        {healthText(connection)}
+                      </span>
+                      {' · '}{connection.tool_count} tool{connection.tool_count === 1 ? '' : 's'}
+                      {connection.est_tokens ? ` · ${costLabel(connection.est_tokens)}` : ''}
+                    </span>
                   </span>
-                </span>
-                <span className="cx-chevron">›</span>
-              </button>
+                </button>
+                <button type="button"
+                  role="switch"
+                  aria-checked={connection.enabled}
+                  aria-label={`${connection.name} available to your agent`}
+                  className={`cx-switch${connection.enabled ? ' is-on' : ''}`}
+                  disabled={pending || (!connection.enabled && connection.status === 'error')}
+                  title={!connection.enabled && connection.status === 'error'
+                    ? 'Re-check successfully before turning on'
+                    : undefined}
+                  onClick={() => toggle(connection)}>
+                  <span aria-hidden="true" />
+                </button>
+              </div>
             ))
           )}
           {actionError && view.name === 'list' && (
