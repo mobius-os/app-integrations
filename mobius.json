@@ -1,7 +1,7 @@
 {
   "id": "connections",
   "name": "Connections",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Add remote MCP services once and both agent runtimes can use them — with live health, honest per-message cost, and curated suggestions.",
   "author": "mobius-os",
   "license": "MIT",

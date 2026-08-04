@@ -251,7 +251,7 @@ export default function Connections({ appId, token }) {
                   className={`cx-switch${connection.enabled ? ' is-on' : ''}`}
                   disabled={pending || (!connection.enabled && connection.status === 'error')}
                   title={!connection.enabled && connection.status === 'error'
-                    ? 'Re-check successfully before turning on'
+                    ? 'Refresh status successfully before turning on'
                     : undefined}
                   onClick={() => toggle(connection)}>
                   <span aria-hidden="true" />
@@ -296,7 +296,7 @@ export default function Connections({ appId, token }) {
               className={`cx-switch${connection.enabled ? ' is-on' : ''}`}
               disabled={pending || (!connection.enabled && connection.status === 'error')}
               title={!connection.enabled && connection.status === 'error'
-                ? 'Re-check successfully before turning on'
+                ? 'Refresh status successfully before turning on'
                 : undefined}
               onClick={() => toggle(connection)}>
               <span aria-hidden="true" />
@@ -367,12 +367,12 @@ export default function Connections({ appId, token }) {
             <div className="cx-detail-actions">
               <button type="button" className="cx-btn"
                 disabled={pending} onClick={() => recheck(connection)}>
-                {pending ? 'Working…' : 'Re-check now'}
+                {pending ? 'Refreshing…' : 'Refresh status'}
               </button>
               <button type="button" className="cx-btn cx-btn--danger"
                 disabled={pending}
                 onClick={() => setConfirmRemove(connection.generation)}>
-                Remove…
+                Remove
               </button>
             </div>
           )}
@@ -484,7 +484,11 @@ export default function Connections({ appId, token }) {
           back={{ name: 'list' }}
         />
         <div className="cx-scroll">
-          {SUGGESTIONS.map(suggestion => {
+          {[...SUGGESTIONS]
+            .sort((a, b) =>
+              Number(addedUrls.has(normalizedUrl(a.url)))
+              - Number(addedUrls.has(normalizedUrl(b.url))))
+            .map(suggestion => {
             const added = addedUrls.has(normalizedUrl(suggestion.url))
             return (
               <div key={suggestion.id} className="cx-suggestion">
