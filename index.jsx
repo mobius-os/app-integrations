@@ -118,6 +118,12 @@ export default function Connections({ appId, token }) {
     () => new Set(rows.map(row => normalizedUrl(row.url))),
     [rows],
   )
+  const iconByUrl = useMemo(
+    () => new Map(SUGGESTIONS
+      .filter(s => s.icon)
+      .map(s => [normalizedUrl(s.url), s.icon])),
+    [],
+  )
   const enabledCount = rows.filter(row => row.enabled).length
 
   function open(next) {
@@ -251,6 +257,10 @@ export default function Connections({ appId, token }) {
                   aria-label={`Open ${connection.name}`}
                   onClick={() => open({ name: 'detail', id: connection.id })}>
                   <span className={`cx-dot cx-dot--${dotColor(connection)}`} />
+                  {iconByUrl.has(normalizedUrl(connection.url)) && (
+                    <img className="cx-card-icon" alt="" aria-hidden="true"
+                      src={iconByUrl.get(normalizedUrl(connection.url))} />
+                  )}
                   <span className="cx-card-main">
                     <span className="cx-card-name">{connection.name}</span>
                     <span className="cx-card-endpoint">
@@ -509,6 +519,17 @@ export default function Connections({ appId, token }) {
   }
 
   function SuggestionsScreen() {
+    const [query, setQuery] = useState('')
+    const needle = query.trim().toLowerCase()
+    const visible = [...SUGGESTIONS]
+      .filter(suggestion => !needle || (
+        `${suggestion.name} ${suggestion.tagline} ${suggestion.detail}`
+          .toLowerCase()
+          .includes(needle)
+      ))
+      .sort((a, b) =>
+        Number(addedUrls.has(normalizedUrl(a.url)))
+        - Number(addedUrls.has(normalizedUrl(b.url))))
     return (
       <>
         <Header
@@ -517,20 +538,36 @@ export default function Connections({ appId, token }) {
           back={{ name: 'list' }}
         />
         <div className="cx-scroll">
-          {[...SUGGESTIONS]
-            .sort((a, b) =>
-              Number(addedUrls.has(normalizedUrl(a.url)))
-              - Number(addedUrls.has(normalizedUrl(b.url))))
-            .map(suggestion => {
+          <input
+            type="search"
+            className="cx-search"
+            placeholder="Search suggestions…"
+            aria-label="Search suggestions"
+            value={query}
+            onChange={event => setQuery(event.target.value)}
+          />
+          {visible.length === 0 && (
+            <div className="cx-notice" role="status">
+              Nothing matches "{query.trim()}" — the agent can also add any
+              service by address from the main screen.
+            </div>
+          )}
+          {visible.map(suggestion => {
             const added = addedUrls.has(normalizedUrl(suggestion.url))
             return (
               <div key={suggestion.id} className="cx-suggestion">
                 <div className="cx-suggestion-top">
-                  <div>
-                    <h2 className="cx-suggestion-name">{suggestion.name}</h2>
-                    <span className="cx-suggestion-tagline">
-                      {suggestion.tagline}
-                    </span>
+                  <div className="cx-suggestion-id">
+                    {suggestion.icon && (
+                      <img className="cx-suggestion-icon" src={suggestion.icon}
+                        alt="" aria-hidden="true" />
+                    )}
+                    <div>
+                      <h2 className="cx-suggestion-name">{suggestion.name}</h2>
+                      <span className="cx-suggestion-tagline">
+                        {suggestion.tagline}
+                      </span>
+                    </div>
                   </div>
                   {added ? (
                     <span className="cx-pill cx-pill--added">Added</span>

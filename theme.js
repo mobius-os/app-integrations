@@ -119,9 +119,18 @@ export const CSS = `
 .cx-form-actions .cx-btn { flex: 1; }
 .cx-support-note { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
 
+.cx-search { min-height: 44px; padding: 10px 14px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  font-family: var(--font); font-size: 14px; width: 100%; }
+.cx-search:focus { outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 1px; }
+.cx-card-icon { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; }
+
 .cx-suggestion { display: flex; flex-direction: column; gap: 8px; padding: 14px;
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
 .cx-suggestion-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cx-suggestion-id { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.cx-suggestion-icon { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 8px; }
 .cx-suggestion-name { margin: 0; font-size: 15px; font-weight: 700; }
 .cx-suggestion-tagline { font-size: 12.5px; color: var(--muted); font-weight: 600; }
 .cx-suggestion-detail { margin: 0; font-size: 13px; line-height: 1.5; }
