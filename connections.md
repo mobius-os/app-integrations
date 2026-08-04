@@ -59,7 +59,7 @@ curl -s -X POST "$API_BASE_URL/api/connectors" \
   large-catalog connection left enabled is a recurring cost even when unused.
 - **Health states:** `status: "error"` means the last check definitively
   failed (bad key, rejected, gone) — the connection is withheld from turns
-  until a successful re-check; it cannot be enabled while unhealthy. A row
+  until a successful check (open its card and press Check again); it cannot be enabled while unhealthy. A row
   with `status: "ok"` but a `status_detail` message was merely unreachable at
   the last check (network blip) and keeps working; a re-check clears the note.
 - **A newly added or re-enabled connection applies from the NEXT chat turn**,

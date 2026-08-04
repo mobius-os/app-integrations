@@ -54,8 +54,10 @@ export default function Connections({ appId, token }) {
   const [pending, setPending] = useState(false)
   const [actionError, setActionError] = useState('')
   const [confirmRemove, setConfirmRemove] = useState(null)
+  const [probingId, setProbingId] = useState(null)
   const mutationPending = useRef(false)
   const readySignalled = useRef(false)
+  const probedAt = useRef(new Map())
 
   const load = useCallback(async () => {
     try {
@@ -135,6 +137,27 @@ export default function Connections({ appId, token }) {
     await perform(() => recheckConnection(
       token, connection.id, connection.generation,
     ))
+  }
+
+  // Opening a card freshens its status quietly. Safe by construction: a
+  // transient failure keeps last known health server-side, and a toggle that
+  // races this probe rotates the row generation so the stale write misses.
+  // Throttled so hopping between cards doesn't hammer the remote service;
+  // deliberately outside perform() so the toggle stays live while checking.
+  async function autoProbe(connection) {
+    if (!connection) return
+    const last = probedAt.current.get(connection.id) || 0
+    if (Date.now() - last < 60000) return
+    probedAt.current.set(connection.id, Date.now())
+    setProbingId(connection.id)
+    try {
+      await recheckConnection(token, connection.id, connection.generation)
+    } catch {
+      // Quiet freshen: the row's own status tells the story after reload.
+    } finally {
+      setProbingId(current => (current === connection.id ? null : current))
+      load()
+    }
   }
 
   async function remove(connection) {
@@ -277,11 +300,17 @@ export default function Connections({ appId, token }) {
 
   function DetailScreen() {
     const connection = byId.get(view.id)
+    useEffect(() => {
+      autoProbe(connection)
+      // Entry-time freshen only; autoProbe's own throttle absorbs remounts.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [view.id])
     if (!connection) {
       // Removed under us (another surface, or our own remove) — go home.
       return <ListScreen />
     }
     const removing = confirmRemove === connection.generation
+    const checking = probingId === connection.id
     return (
       <>
         <Header
@@ -309,6 +338,7 @@ export default function Connections({ appId, token }) {
               <span className="cx-kv-key">Status</span>
               <span className={`cx-kv-value${connection.status === 'error' ? ' is-warn' : ''}`}>
                 {connection.enabled ? 'On' : 'Off'} · {healthText(connection)}
+                {checking ? ' · Checking…' : ''}
               </span>
             </div>
             {connection.status_detail && (
@@ -365,10 +395,13 @@ export default function Connections({ appId, token }) {
             </div>
           ) : (
             <div className="cx-detail-actions">
-              <button type="button" className="cx-btn"
-                disabled={pending} onClick={() => recheck(connection)}>
-                {pending ? 'Refreshing…' : 'Refresh status'}
-              </button>
+              {connection.status === 'error' && (
+                <button type="button" className="cx-btn"
+                  disabled={pending || checking}
+                  onClick={() => recheck(connection)}>
+                  {pending || checking ? 'Checking…' : 'Check again'}
+                </button>
+              )}
               <button type="button" className="cx-btn cx-btn--danger"
                 disabled={pending}
                 onClick={() => setConfirmRemove(connection.generation)}>
