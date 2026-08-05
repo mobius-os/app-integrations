@@ -9,6 +9,8 @@ import {
   listConnections,
   recheckConnection,
   removeConnection,
+  signOut,
+  startSignIn,
   updateConnection,
 } from './api.js'
 import { SUGGESTIONS } from './suggestions.js'
@@ -33,6 +35,9 @@ function costLabel(estTokens) {
 }
 
 function healthText(connection) {
+  if (connection.status === 'oauth_required') {
+    return connection.signed_in ? 'Sign-in expired' : 'Needs sign-in'
+  }
   if (connection.status === 'error') return 'Needs attention'
   if (connection.status_detail) return 'Unreachable at last check'
   return 'Reachable'
@@ -40,6 +45,7 @@ function healthText(connection) {
 
 function dotColor(connection) {
   if (connection.status === 'error') return 'danger'
+  if (connection.status === 'oauth_required') return 'muted'
   return connection.enabled ? 'green' : 'muted'
 }
 
@@ -143,6 +149,39 @@ export default function Connections({ appId, token }) {
     await perform(() => recheckConnection(
       token, connection.id, connection.generation,
     ))
+  }
+
+  // Sign-in opens the provider's consent screen in a popup. The platform holds
+  // the tokens; this app only learns success via the callback page's postMessage
+  // (or, if the popup is blocked from messaging back, the next list refresh).
+  async function signIn(connection) {
+    setActionError('')
+    let authorizeUrl
+    try {
+      authorizeUrl = await startSignIn(token, connection.id, connection.generation)
+    } catch (error) {
+      setActionError(error.message || 'Could not start sign-in')
+      return
+    }
+    const popup = window.open(authorizeUrl, 'mobius-connector-signin',
+      'width=520,height=680')
+    if (!popup) {
+      // Popup blocked — fall back to a top-level navigation the owner controls.
+      window.open(authorizeUrl, '_blank', 'noopener')
+    }
+    const onMessage = (event) => {
+      if (event?.data?.type !== 'mobius-connector-oauth') return
+      window.removeEventListener('message', onMessage)
+      if (event.data.ok === false) {
+        setActionError('Sign-in did not complete. Try again.')
+      }
+      load()
+    }
+    window.addEventListener('message', onMessage)
+  }
+
+  async function disconnect(connection) {
+    await perform(() => signOut(token, connection.id, connection.generation))
   }
 
   // Opening a card freshens its status quietly. Safe by construction: a
@@ -277,18 +316,26 @@ export default function Connections({ appId, token }) {
                     </span>
                   </span>
                 </button>
-                <button type="button"
-                  role="switch"
-                  aria-checked={connection.enabled}
-                  aria-label={`${connection.name} available to your agent`}
-                  className={`cx-switch${connection.enabled ? ' is-on' : ''}`}
-                  disabled={pending || (!connection.enabled && connection.status === 'error')}
-                  title={!connection.enabled && connection.status === 'error'
-                    ? 'Refresh status successfully before turning on'
-                    : undefined}
-                  onClick={() => toggle(connection)}>
-                  <span aria-hidden="true" />
-                </button>
+                {connection.status === 'oauth_required' ? (
+                  <button type="button" className="cx-btn cx-btn--primary cx-signin-btn"
+                    disabled={pending}
+                    onClick={() => signIn(connection)}>
+                    Sign in
+                  </button>
+                ) : (
+                  <button type="button"
+                    role="switch"
+                    aria-checked={connection.enabled}
+                    aria-label={`${connection.name} available to your agent`}
+                    className={`cx-switch${connection.enabled ? ' is-on' : ''}`}
+                    disabled={pending || (!connection.enabled && connection.status === 'error')}
+                    title={!connection.enabled && connection.status === 'error'
+                      ? 'Refresh status successfully before turning on'
+                      : undefined}
+                    onClick={() => toggle(connection)}>
+                    <span aria-hidden="true" />
+                  </button>
+                )}
               </div>
             ))
           )}
@@ -327,7 +374,7 @@ export default function Connections({ appId, token }) {
           title={connection.name}
           subtitle={displayEndpoint(connection.url)}
           back={{ name: 'list' }}
-          right={(
+          right={connection.status === 'oauth_required' ? null : (
             <button type="button"
               role="switch"
               aria-checked={connection.enabled}
@@ -369,12 +416,27 @@ export default function Connections({ appId, token }) {
                 <span className="cx-kv-value">{costLabel(connection.est_tokens)}</span>
               </div>
             )}
-            <div className="cx-kv-row">
-              <span className="cx-kv-key">API key</span>
-              <span className="cx-kv-value">
-                {connection.has_auth ? 'Saved (encrypted)' : 'None'}
-              </span>
-            </div>
+            {connection.auth_kind === 'oauth' ? (
+              <div className="cx-kv-row">
+                <span className="cx-kv-key">Sign-in</span>
+                <span className="cx-kv-value">
+                  {connection.signed_in ? 'Connected' : 'Not signed in'}
+                </span>
+              </div>
+            ) : (
+              <div className="cx-kv-row">
+                <span className="cx-kv-key">API key</span>
+                <span className="cx-kv-value">
+                  {connection.has_auth ? 'Saved (encrypted)' : 'None'}
+                </span>
+              </div>
+            )}
+            {connection.auth_kind === 'oauth' && connection.scopes?.length > 0 && (
+              <div className="cx-kv-row">
+                <span className="cx-kv-key">Access</span>
+                <span className="cx-kv-value">{connection.scopes.join(', ')}</span>
+              </div>
+            )}
           </div>
 
           {connection.tools?.length > 0 && (
@@ -405,6 +467,21 @@ export default function Connections({ appId, token }) {
             </div>
           ) : (
             <div className="cx-detail-actions">
+              {connection.status === 'oauth_required' && (
+                <button type="button" className="cx-btn cx-btn--primary"
+                  disabled={pending}
+                  onClick={() => signIn(connection)}>
+                  {connection.signed_in ? 'Sign in again' : 'Sign in'}
+                </button>
+              )}
+              {connection.auth_kind === 'oauth' && connection.signed_in
+                && connection.status !== 'oauth_required' && (
+                <button type="button" className="cx-btn"
+                  disabled={pending}
+                  onClick={() => disconnect(connection)}>
+                  Sign out
+                </button>
+              )}
               {connection.status === 'error' && (
                 <button type="button" className="cx-btn"
                   disabled={pending || checking}
@@ -476,14 +553,21 @@ export default function Connections({ appId, token }) {
                 placeholder="Use the service's own name"
                 value={name} onChange={event => setName(event.target.value)} />
             </label>
-            <button type="button" className="cx-btn cx-btn--ghost"
-              aria-expanded={usesKey}
-              onClick={() => setUsesKey(current => {
-                if (current) { setAuthValue(''); setAuthHeader('Authorization') }
-                return !current
-              })}>
-              {usesKey ? 'Remove API key' : 'Add API key'}
-            </button>
+            {prefill?.signIn ? (
+              <p className="cx-support-note">
+                After you add this, a <strong>Sign in</strong> button appears on
+                its card — you approve access in {prefill.name}'s own window.
+              </p>
+            ) : (
+              <button type="button" className="cx-btn cx-btn--ghost"
+                aria-expanded={usesKey}
+                onClick={() => setUsesKey(current => {
+                  if (current) { setAuthValue(''); setAuthHeader('Authorization') }
+                  return !current
+                })}>
+                {usesKey ? 'Remove API key' : 'Add API key'}
+              </button>
+            )}
             {usesKey && (
               <>
                 <label className="cx-field">
@@ -583,7 +667,9 @@ export default function Connections({ appId, token }) {
                 <div className="cx-suggestion-foot">
                   <span>{suggestion.costNote}</span>
                   <span className="cx-pill">
-                    {suggestion.needsKey ? 'Needs an API key' : 'No key needed'}
+                    {suggestion.signIn
+                      ? 'Sign-in required'
+                      : (suggestion.needsKey ? 'Needs an API key' : 'No key needed')}
                   </span>
                 </div>
               </div>

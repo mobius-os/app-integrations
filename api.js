@@ -89,3 +89,27 @@ export async function removeConnection(token, id, generation) {
   })
   return jsonOrThrow(res, 'Could not remove the connection')
 }
+
+// Sign-in: the platform builds the provider authorization URL (tokens never
+// reach this app). We open it in a popup and resolve when the callback page
+// posts back, or when a focus-triggered list refresh shows the connection ok.
+export async function startSignIn(token, id, generation) {
+  const res = await request(`/api/connectors/${id}/oauth/start`, {
+    token,
+    method: 'POST',
+    timeoutMs: 20000,
+    headers: { [GENERATION_HEADER]: generation },
+  })
+  const data = await jsonOrThrow(res, 'Could not start sign-in')
+  return data.authorize_url
+}
+
+export async function signOut(token, id, generation) {
+  const res = await request(`/api/connectors/${id}/oauth/disconnect`, {
+    token,
+    method: 'POST',
+    timeoutMs: 15000,
+    headers: { [GENERATION_HEADER]: generation },
+  })
+  return jsonOrThrow(res, 'Could not sign out')
+}

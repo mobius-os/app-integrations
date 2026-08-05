@@ -125,6 +125,7 @@ export const CSS = `
 .cx-search:focus { outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
   outline-offset: 1px; }
 .cx-card-icon { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; }
+.cx-signin-btn { flex: 0 0 auto; min-height: 34px; padding: 6px 14px; margin-right: 2px; }
 
 .cx-suggestion { display: flex; flex-direction: column; gap: 8px; padding: 14px;
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
