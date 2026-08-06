@@ -1,9 +1,8 @@
-// Curated, known-good remote MCP services. Every entry here was verified
-// against the platform's own probe before release (2026-08-04): keyless
-// entries returned their full tool catalog; key-required entries answered
-// with a live key challenge. Adding one still runs that probe live, so a
-// stale entry fails safely instead of saving a broken row. Keys are entered
-// by the owner in the add form and stored encrypted server-side — never in
+// Curated remote MCP services from their providers' published endpoints.
+// Entries are checked against current provider documentation; adding one
+// still runs the platform's live probe, so a stale or unavailable entry
+// fails safely instead of saving a broken row. Keys are entered by the
+// owner in the add form and stored encrypted server-side — never in
 // this app. Icons are each service's own published favicon, fetched at
 // curation time and shipped inline because the app frame's security
 // policy correctly refuses runtime loads from external hosts.
@@ -424,5 +423,65 @@ export const SUGGESTIONS = [
     tagline: "Run scrapers across the web",
     detail: "Discover and run thousands of Apify Actors \u2014 scrape search, maps, social, e-commerce.",
     costNote: "Sign in with Apify.",
+  },
+  {
+    id: "google-bigquery",
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADlklEQVRYhe2WX2hbdRTHP+cuN4s2trHYIoUWdVgmVHxJKGwiM7nWUXwRIb6oK2yUPehAGH1p2YPYBx+EsKehY0wE7aRYkCEUboMVVybZQ9H6hzkRhgiLNtQ1gTU3zfEhNyFN7k2zpk+yL+Qhv+/vnO83J+fcc+EBOkA2EQtlE7FQJznk/kWjFsgRYASoit8D1kBX+pdu2PtuIJuIDQETwFvAoV2u/w76Echc/1LmdscGsonYC8A54BhwYFe3FWwD3wDv9S9lvt2TgWwiGgQZB+aAg20K17BlhFh+fMy5dPjdJMrX6Zlw0eue0cKbBZzfizhAemCcK4dOmsB5BMtXxevQ/c9vAH0+cQXgJmjOTdMLDANdW0aI9MA4nwy/U3//byCang439URTBbKJWEDhTAvxZWBSVZOquB9NApPAcnpgnPknTzTG9KGcic/mA41E0wEQFUOTxqNbGD1FjIdKyMEy5UIARK+Fov9MBAYLt03LKdfF5IBb2UTsy4Un3kwVzO43gK4dWYUkMA9cb2kgMJg/Zj7976D51CZGTxEJVnRUATgswiXgKyDVGNu/lLkXfzFyDuUxhNca6EEqk7TDQK0HinYgKIil2/KZHNAej8rsgKouisiUaTk/NHLx2fwQ8DONVaj0wgSKXZ2KWg9IpesvtCMOICIvAxcd24w0cm6zXW+Oog+4UD8VBoBjm0PAZSplui8oGvShvvM5HwQuu1XCcGwzoGirrvdDBpgMWqWsD/9ni9jaVBjAMMpxj0sFYAEYBZ4BTqjq91VxRV8xLWe1hcg8cNTNUfDgj4MOi2Ob44p+IUhjwyyo6qngS6Vc9aBoB0ZQUiJydhfxGuLvb/YichF41eMHJsWxzSRwxSP2qGk5K+2I7GpiNn8EuOZBve67CxS9ux/ibjLfXIaqlr0IQaKObbZYVu0hPps3EKI+xsqGiOSAdQ/6NJW3nk4x4uZqVF9HNBdQdE2QVSBRT5eV0R9LvSvRuefn8BupcjDY/cfHnnveFekGTgGPNHOyirIWCFqlrGObVxsN/FKK8GH+2S7gpG9+o4V2RaQVeTU9E84aAKblpFR1EaCs8JMT4ezdUX7bbuupvBcspqfDKajfBSJTQObXUoQP8s+xoXt6EWoHGWCq+qVmwN1qYzOb0c9vbvd4NWWH0HXgU2AsPR2ubdAdY2ZazsZf5YdPA9WH0519UL7j5kqCvp2eDm/sQ84H+B/hP/vIN4nUgiC6AAAAAElFTkSuQmCC",
+    name: "Google BigQuery",
+    url: "https://bigquery.googleapis.com/mcp",
+    signIn: true,
+    tagline: "Query and analyze your BigQuery data",
+    detail: "Lets your agent list datasets and run queries over your BigQuery projects. No OAuth app setup: sign in with Google, choose a Cloud project, and reuse that sign-in for later Google services. The selected project may still need this service's API enabled and the appropriate permissions.",
+    costNote: "Sign in with Google and choose a Cloud project; later Google services can reuse it.",
+  },
+  {
+    id: "google-cloud-storage",
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADlklEQVRYhe2WX2hbdRTHP+cuN4s2trHYIoUWdVgmVHxJKGwiM7nWUXwRIb6oK2yUPehAGH1p2YPYBx+EsKehY0wE7aRYkCEUboMVVybZQ9H6hzkRhgiLNtQ1gTU3zfEhNyFN7k2zpk+yL+Qhv+/vnO83J+fcc+EBOkA2EQtlE7FQJznk/kWjFsgRYASoit8D1kBX+pdu2PtuIJuIDQETwFvAoV2u/w76Echc/1LmdscGsonYC8A54BhwYFe3FWwD3wDv9S9lvt2TgWwiGgQZB+aAg20K17BlhFh+fMy5dPjdJMrX6Zlw0eue0cKbBZzfizhAemCcK4dOmsB5BMtXxevQ/c9vAH0+cQXgJmjOTdMLDANdW0aI9MA4nwy/U3//byCang439URTBbKJWEDhTAvxZWBSVZOquB9NApPAcnpgnPknTzTG9KGcic/mA41E0wEQFUOTxqNbGD1FjIdKyMEy5UIARK+Fov9MBAYLt03LKdfF5IBb2UTsy4Un3kwVzO43gK4dWYUkMA9cb2kgMJg/Zj7976D51CZGTxEJVnRUATgswiXgKyDVGNu/lLkXfzFyDuUxhNca6EEqk7TDQK0HinYgKIil2/KZHNAej8rsgKouisiUaTk/NHLx2fwQ8DONVaj0wgSKXZ2KWg9IpesvtCMOICIvAxcd24w0cm6zXW+Oog+4UD8VBoBjm0PAZSplui8oGvShvvM5HwQuu1XCcGwzoGirrvdDBpgMWqWsD/9ni9jaVBjAMMpxj0sFYAEYBZ4BTqjq91VxRV8xLWe1hcg8cNTNUfDgj4MOi2Ob44p+IUhjwyyo6qngS6Vc9aBoB0ZQUiJydhfxGuLvb/YichF41eMHJsWxzSRwxSP2qGk5K+2I7GpiNn8EuOZBve67CxS9ux/ibjLfXIaqlr0IQaKObbZYVu0hPps3EKI+xsqGiOSAdQ/6NJW3nk4x4uZqVF9HNBdQdE2QVSBRT5eV0R9LvSvRuefn8BupcjDY/cfHnnveFekGTgGPNHOyirIWCFqlrGObVxsN/FKK8GH+2S7gpG9+o4V2RaQVeTU9E84aAKblpFR1EaCs8JMT4ezdUX7bbuupvBcspqfDKajfBSJTQObXUoQP8s+xoXt6EWoHGWCq+qVmwN1qYzOb0c9vbvd4NWWH0HXgU2AsPR2ubdAdY2ZazsZf5YdPA9WH0519UL7j5kqCvp2eDm/sQ84H+B/hP/vIN4nUgiC6AAAAAElFTkSuQmCC",
+    name: "Google Cloud Storage",
+    url: "https://storage.googleapis.com/storage/mcp",
+    signIn: true,
+    tagline: "Read and write your storage buckets",
+    detail: "Lets your agent browse, read, and update files in your Cloud Storage buckets. No OAuth app setup: sign in with Google, choose a Cloud project, and reuse that sign-in for later Google services. The selected project may still need this service's API enabled and the appropriate permissions.",
+    costNote: "Sign in with Google and choose a Cloud project; later Google services can reuse it.",
+  },
+  {
+    id: "google-cloud-run",
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADlklEQVRYhe2WX2hbdRTHP+cuN4s2trHYIoUWdVgmVHxJKGwiM7nWUXwRIb6oK2yUPehAGH1p2YPYBx+EsKehY0wE7aRYkCEUboMVVybZQ9H6hzkRhgiLNtQ1gTU3zfEhNyFN7k2zpk+yL+Qhv+/vnO83J+fcc+EBOkA2EQtlE7FQJznk/kWjFsgRYASoit8D1kBX+pdu2PtuIJuIDQETwFvAoV2u/w76Echc/1LmdscGsonYC8A54BhwYFe3FWwD3wDv9S9lvt2TgWwiGgQZB+aAg20K17BlhFh+fMy5dPjdJMrX6Zlw0eue0cKbBZzfizhAemCcK4dOmsB5BMtXxevQ/c9vAH0+cQXgJmjOTdMLDANdW0aI9MA4nwy/U3//byCang439URTBbKJWEDhTAvxZWBSVZOquB9NApPAcnpgnPknTzTG9KGcic/mA41E0wEQFUOTxqNbGD1FjIdKyMEy5UIARK+Fov9MBAYLt03LKdfF5IBb2UTsy4Un3kwVzO43gK4dWYUkMA9cb2kgMJg/Zj7976D51CZGTxEJVnRUATgswiXgKyDVGNu/lLkXfzFyDuUxhNca6EEqk7TDQK0HinYgKIil2/KZHNAej8rsgKouisiUaTk/NHLx2fwQ8DONVaj0wgSKXZ2KWg9IpesvtCMOICIvAxcd24w0cm6zXW+Oog+4UD8VBoBjm0PAZSplui8oGvShvvM5HwQuu1XCcGwzoGirrvdDBpgMWqWsD/9ni9jaVBjAMMpxj0sFYAEYBZ4BTqjq91VxRV8xLWe1hcg8cNTNUfDgj4MOi2Ob44p+IUhjwyyo6qngS6Vc9aBoB0ZQUiJydhfxGuLvb/YichF41eMHJsWxzSRwxSP2qGk5K+2I7GpiNn8EuOZBve67CxS9ux/ibjLfXIaqlr0IQaKObbZYVu0hPps3EKI+xsqGiOSAdQ/6NJW3nk4x4uZqVF9HNBdQdE2QVSBRT5eV0R9LvSvRuefn8BupcjDY/cfHnnveFekGTgGPNHOyirIWCFqlrGObVxsN/FKK8GH+2S7gpG9+o4V2RaQVeTU9E84aAKblpFR1EaCs8JMT4ezdUX7bbuupvBcspqfDKajfBSJTQObXUoQP8s+xoXt6EWoHGWCq+qVmwN1qYzOb0c9vbvd4NWWH0HXgU2AsPR2ubdAdY2ZazsZf5YdPA9WH0519UL7j5kqCvp2eDm/sQ84H+B/hP/vIN4nUgiC6AAAAAElFTkSuQmCC",
+    name: "Google Cloud Run",
+    url: "https://run.googleapis.com/mcp",
+    signIn: true,
+    tagline: "Deploy and manage Cloud Run services",
+    detail: "Lets your agent inspect, deploy, and manage your Cloud Run services. No OAuth app setup: sign in with Google, choose a Cloud project, and reuse that sign-in for later Google services. The selected project may still need this service's API enabled and the appropriate permissions.",
+    costNote: "Sign in with Google and choose a Cloud project; later Google services can reuse it.",
+  },
+  {
+    id: "google-firestore",
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADlklEQVRYhe2WX2hbdRTHP+cuN4s2trHYIoUWdVgmVHxJKGwiM7nWUXwRIb6oK2yUPehAGH1p2YPYBx+EsKehY0wE7aRYkCEUboMVVybZQ9H6hzkRhgiLNtQ1gTU3zfEhNyFN7k2zpk+yL+Qhv+/vnO83J+fcc+EBOkA2EQtlE7FQJznk/kWjFsgRYASoit8D1kBX+pdu2PtuIJuIDQETwFvAoV2u/w76Echc/1LmdscGsonYC8A54BhwYFe3FWwD3wDv9S9lvt2TgWwiGgQZB+aAg20K17BlhFh+fMy5dPjdJMrX6Zlw0eue0cKbBZzfizhAemCcK4dOmsB5BMtXxevQ/c9vAH0+cQXgJmjOTdMLDANdW0aI9MA4nwy/U3//byCang439URTBbKJWEDhTAvxZWBSVZOquB9NApPAcnpgnPknTzTG9KGcic/mA41E0wEQFUOTxqNbGD1FjIdKyMEy5UIARK+Fov9MBAYLt03LKdfF5IBb2UTsy4Un3kwVzO43gK4dWYUkMA9cb2kgMJg/Zj7976D51CZGTxEJVnRUATgswiXgKyDVGNu/lLkXfzFyDuUxhNca6EEqk7TDQK0HinYgKIil2/KZHNAej8rsgKouisiUaTk/NHLx2fwQ8DONVaj0wgSKXZ2KWg9IpesvtCMOICIvAxcd24w0cm6zXW+Oog+4UD8VBoBjm0PAZSplui8oGvShvvM5HwQuu1XCcGwzoGirrvdDBpgMWqWsD/9ni9jaVBjAMMpxj0sFYAEYBZ4BTqjq91VxRV8xLWe1hcg8cNTNUfDgj4MOi2Ob44p+IUhjwyyo6qngS6Vc9aBoB0ZQUiJydhfxGuLvb/YichF41eMHJsWxzSRwxSP2qGk5K+2I7GpiNn8EuOZBve67CxS9ux/ibjLfXIaqlr0IQaKObbZYVu0hPps3EKI+xsqGiOSAdQ/6NJW3nk4x4uZqVF9HNBdQdE2QVSBRT5eV0R9LvSvRuefn8BupcjDY/cfHnnveFekGTgGPNHOyirIWCFqlrGObVxsN/FKK8GH+2S7gpG9+o4V2RaQVeTU9E84aAKblpFR1EaCs8JMT4ezdUX7bbuupvBcspqfDKajfBSJTQObXUoQP8s+xoXt6EWoHGWCq+qVmwN1qYzOb0c9vbvd4NWWH0HXgU2AsPR2ubdAdY2ZazsZf5YdPA9WH0519UL7j5kqCvp2eDm/sQ84H+B/hP/vIN4nUgiC6AAAAAElFTkSuQmCC",
+    name: "Google Firestore",
+    url: "https://firestore.googleapis.com/mcp",
+    signIn: true,
+    tagline: "Work with your Firestore databases",
+    detail: "Lets your agent read and update documents in your Firestore databases. No OAuth app setup: sign in with Google, choose a Cloud project, and reuse that sign-in for later Google services. The selected project may still need this service's API enabled and the appropriate permissions.",
+    costNote: "Sign in with Google and choose a Cloud project; later Google services can reuse it.",
+  },
+  {
+    id: "google-pubsub",
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADlklEQVRYhe2WX2hbdRTHP+cuN4s2trHYIoUWdVgmVHxJKGwiM7nWUXwRIb6oK2yUPehAGH1p2YPYBx+EsKehY0wE7aRYkCEUboMVVybZQ9H6hzkRhgiLNtQ1gTU3zfEhNyFN7k2zpk+yL+Qhv+/vnO83J+fcc+EBOkA2EQtlE7FQJznk/kWjFsgRYASoit8D1kBX+pdu2PtuIJuIDQETwFvAoV2u/w76Echc/1LmdscGsonYC8A54BhwYFe3FWwD3wDv9S9lvt2TgWwiGgQZB+aAg20K17BlhFh+fMy5dPjdJMrX6Zlw0eue0cKbBZzfizhAemCcK4dOmsB5BMtXxevQ/c9vAH0+cQXgJmjOTdMLDANdW0aI9MA4nwy/U3//byCang439URTBbKJWEDhTAvxZWBSVZOquB9NApPAcnpgnPknTzTG9KGcic/mA41E0wEQFUOTxqNbGD1FjIdKyMEy5UIARK+Fov9MBAYLt03LKdfF5IBb2UTsy4Un3kwVzO43gK4dWYUkMA9cb2kgMJg/Zj7976D51CZGTxEJVnRUATgswiXgKyDVGNu/lLkXfzFyDuUxhNca6EEqk7TDQK0HinYgKIil2/KZHNAej8rsgKouisiUaTk/NHLx2fwQ8DONVaj0wgSKXZ2KWg9IpesvtCMOICIvAxcd24w0cm6zXW+Oog+4UD8VBoBjm0PAZSplui8oGvShvvM5HwQuu1XCcGwzoGirrvdDBpgMWqWsD/9ni9jaVBjAMMpxj0sFYAEYBZ4BTqjq91VxRV8xLWe1hcg8cNTNUfDgj4MOi2Ob44p+IUhjwyyo6qngS6Vc9aBoB0ZQUiJydhfxGuLvb/YichF41eMHJsWxzSRwxSP2qGk5K+2I7GpiNn8EuOZBve67CxS9ux/ibjLfXIaqlr0IQaKObbZYVu0hPps3EKI+xsqGiOSAdQ/6NJW3nk4x4uZqVF9HNBdQdE2QVSBRT5eV0R9LvSvRuefn8BupcjDY/cfHnnveFekGTgGPNHOyirIWCFqlrGObVxsN/FKK8GH+2S7gpG9+o4V2RaQVeTU9E84aAKblpFR1EaCs8JMT4ezdUX7bbuupvBcspqfDKajfBSJTQObXUoQP8s+xoXt6EWoHGWCq+qVmwN1qYzOb0c9vbvd4NWWH0HXgU2AsPR2ubdAdY2ZazsZf5YdPA9WH0519UL7j5kqCvp2eDm/sQ84H+B/hP/vIN4nUgiC6AAAAAElFTkSuQmCC",
+    name: "Google Pub/Sub",
+    url: "https://pubsub.googleapis.com/mcp",
+    signIn: true,
+    tagline: "Publish and inspect messaging topics",
+    detail: "Lets your agent manage Pub/Sub topics and subscriptions and publish messages. No OAuth app setup: sign in with Google, choose a Cloud project, and reuse that sign-in for later Google services. The selected project may still need this service's API enabled and the appropriate permissions.",
+    costNote: "Sign in with Google and choose a Cloud project; later Google services can reuse it.",
+  },
+  {
+    id: "google-cloud-logging",
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADlklEQVRYhe2WX2hbdRTHP+cuN4s2trHYIoUWdVgmVHxJKGwiM7nWUXwRIb6oK2yUPehAGH1p2YPYBx+EsKehY0wE7aRYkCEUboMVVybZQ9H6hzkRhgiLNtQ1gTU3zfEhNyFN7k2zpk+yL+Qhv+/vnO83J+fcc+EBOkA2EQtlE7FQJznk/kWjFsgRYASoit8D1kBX+pdu2PtuIJuIDQETwFvAoV2u/w76Echc/1LmdscGsonYC8A54BhwYFe3FWwD3wDv9S9lvt2TgWwiGgQZB+aAg20K17BlhFh+fMy5dPjdJMrX6Zlw0eue0cKbBZzfizhAemCcK4dOmsB5BMtXxevQ/c9vAH0+cQXgJmjOTdMLDANdW0aI9MA4nwy/U3//byCang439URTBbKJWEDhTAvxZWBSVZOquB9NApPAcnpgnPknTzTG9KGcic/mA41E0wEQFUOTxqNbGD1FjIdKyMEy5UIARK+Fov9MBAYLt03LKdfF5IBb2UTsy4Un3kwVzO43gK4dWYUkMA9cb2kgMJg/Zj7976D51CZGTxEJVnRUATgswiXgKyDVGNu/lLkXfzFyDuUxhNca6EEqk7TDQK0HinYgKIil2/KZHNAej8rsgKouisiUaTk/NHLx2fwQ8DONVaj0wgSKXZ2KWg9IpesvtCMOICIvAxcd24w0cm6zXW+Oog+4UD8VBoBjm0PAZSplui8oGvShvvM5HwQuu1XCcGwzoGirrvdDBpgMWqWsD/9ni9jaVBjAMMpxj0sFYAEYBZ4BTqjq91VxRV8xLWe1hcg8cNTNUfDgj4MOi2Ob44p+IUhjwyyo6qngS6Vc9aBoB0ZQUiJydhfxGuLvb/YichF41eMHJsWxzSRwxSP2qGk5K+2I7GpiNn8EuOZBve67CxS9ux/ibjLfXIaqlr0IQaKObbZYVu0hPps3EKI+xsqGiOSAdQ/6NJW3nk4x4uZqVF9HNBdQdE2QVSBRT5eV0R9LvSvRuefn8BupcjDY/cfHnnveFekGTgGPNHOyirIWCFqlrGObVxsN/FKK8GH+2S7gpG9+o4V2RaQVeTU9E84aAKblpFR1EaCs8JMT4ezdUX7bbuupvBcspqfDKajfBSJTQObXUoQP8s+xoXt6EWoHGWCq+qVmwN1qYzOb0c9vbvd4NWWH0HXgU2AsPR2ubdAdY2ZazsZf5YdPA9WH0519UL7j5kqCvp2eDm/sQ84H+B/hP/vIN4nUgiC6AAAAAElFTkSuQmCC",
+    name: "Google Cloud Logging",
+    url: "https://logging.googleapis.com/mcp",
+    signIn: true,
+    tagline: "Search and analyze your Cloud logs",
+    detail: "Lets your agent search and analyze the logs from your Google Cloud projects. No OAuth app setup: sign in with Google, choose a Cloud project, and reuse that sign-in for later Google services. The selected project may still need this service's API enabled and the appropriate permissions.",
+    costNote: "Sign in with Google and choose a Cloud project; later Google services can reuse it.",
   },
 ]

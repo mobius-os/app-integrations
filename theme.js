@@ -80,6 +80,10 @@ export const CSS = `
   background: color-mix(in srgb, var(--accent) 8%, var(--surface)); color: var(--text); }
 .cx-notice a, .cx-notice button.cx-linklike { color: var(--accent); font-weight: 650; }
 .cx-linklike { border: 0; background: none; padding: 0; font: inherit; cursor: pointer; }
+.cx-fresh-toggle { display: block; margin: 12px auto 0; color: var(--muted);
+  font-size: 13px; font-weight: 600; }
+.cx-fresh-toggle:hover { color: var(--accent); }
+.cx-fresh-toggle:disabled { opacity: .55; cursor: default; }
 
 .cx-section-label { margin: 8px 2px 0; font-size: 12px; font-weight: 700; letter-spacing: .04em;
   text-transform: uppercase; color: var(--muted); }
@@ -118,6 +122,27 @@ export const CSS = `
 .cx-form-actions { display: flex; gap: 8px; }
 .cx-form-actions .cx-btn { flex: 1; }
 .cx-support-note { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.cx-copy-row { display: flex; gap: 8px; align-items: stretch; }
+.cx-copy-row input { flex: 1; min-width: 0; font-family: var(--font-mono, monospace); font-size: 12.5px; }
+.cx-copy-row .cx-btn { flex: 0 0 auto; }
+
+/* Google sign-in: the open-link button as an anchor, and the project picker. */
+.cx-google-open { width: 100%; text-decoration: none; margin-bottom: 6px; }
+.cx-google-open.is-disabled { opacity: .55; pointer-events: none; }
+.cx-project-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.cx-project-option { display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text); font-family: var(--font); cursor: pointer;
+  text-align: left; transition: border-color .15s, background .15s; }
+.cx-project-option:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.cx-project-option:disabled { opacity: .55; cursor: default; }
+.cx-project-name { font-size: 14px; font-weight: 650; display: inline-flex;
+  align-items: center; gap: 8px; }
+.cx-project-option[aria-current="true"] { border-color:
+  color-mix(in srgb, var(--green) 45%, var(--border)); }
+.cx-project-id { font-size: 12px; color: var(--muted);
+  font-family: var(--font-mono, monospace); }
 
 .cx-search { min-height: 44px; padding: 10px 14px; border-radius: 10px;
   border: 1px solid var(--border); background: var(--surface); color: var(--text);
