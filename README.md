@@ -2,8 +2,8 @@
 
 The management surface for Möbius's owner-managed MCP connections: add a
 remote MCP service once and both agent runtimes can use it in the owner's
-own chats — with live health, honest per-message cost, and a curated,
-verified suggestions catalog.
+own chats — with live health, honest per-message cost, and a curated
+suggestions catalog built from providers' published endpoints.
 
 The platform keeps what an app structurally cannot hold: API-key custody
 (encrypted server-side, never returned), the loopback broker, per-turn
@@ -22,11 +22,11 @@ permission — it manages rows without ever holding what they protect.
 - **Add** by address, optionally with a static API key entered in the form
   and stored encrypted by the platform. Every add is probed live before it
   saves.
-- **Suggestions**: a curated, searchable catalog of known-good services.
-  Every entry was verified against the platform's own probe before shipping;
-  icons are each service's own published favicon, fetched at curation time
-  and shipped inline (app frames rightly refuse runtime loads from external
-  hosts).
+- **Suggestions**: a curated, searchable catalog built from providers'
+  published endpoints. Every add is still probed live before it saves, so a
+  stale or unavailable entry fails safely; icons are each service's own
+  published favicon, fetched at curation time and shipped inline (app frames
+  rightly refuse runtime loads from external hosts).
 - **Agent skill** (`connections.md`): how the in-product agent inspects,
   adds, and reasons about connections conversationally — including the rule
   that keys go through the app's form, never through chat.
@@ -40,8 +40,9 @@ Reflection.
 
 ## Development
 
-The catalog lives in `suggestions.js` as plain data. To add an entry:
-verify the endpoint against the platform probe, fetch the service's own
+The catalog lives in `suggestions.js` as plain data. To add an entry, confirm
+the endpoint in the provider's current documentation, verify it against the
+platform probe when credentials are available, fetch the service's own
 favicon, and ship it inline — see the header comment in that file.
 `test/` carries the UI test suite inherited from the platform's Settings
 section, pending adaptation to the app frame.

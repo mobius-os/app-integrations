@@ -62,6 +62,16 @@ curl -s -X POST "$API_BASE_URL/api/connectors" \
   until a successful check (open its card and press Check again); it cannot be enabled while unhealthy. A row
   with `status: "ok"` but a `status_detail` message was merely unreachable at
   the last check (network blip) and keeps working; a re-check clears the note.
+- **Sign-in services** (`auth_kind: "oauth"`) connect in the app with a
+  secure sign-in, never a pasted key. Google Cloud services use Google's
+  link-and-code sign-in and then a project picker — there is no OAuth app to
+  create. Later Google connections can reuse an existing sign-in or use a
+  different Google account. The selected project may still need that service's
+  API enabled and appropriate IAM permissions before real tool calls work.
+  Other providers that cannot register automatically may still need the
+  partner's own OAuth app; the Connections app guides that setup. Point the
+  partner at the app: sign-in codes and OAuth client credentials never travel
+  through chat.
 - **A newly added or re-enabled connection applies from the NEXT chat turn**,
   not mid-turn.
 - If every management call answers 403, the platform likely needs a restart
