@@ -1,8 +1,8 @@
 {
   "id": "connections",
-  "name": "Connections",
-  "version": "0.4.0",
-  "description": "Add remote MCP services once and both agent runtimes can use them — with live health, honest per-message cost, and curated suggestions.",
+  "name": "Integrations",
+  "version": "0.4.1",
+  "description": "Give your agents new tools through MCP integrations — with live health, honest per-message cost, and curated suggestions.",
   "author": "mobius-os",
   "license": "MIT",
   "icon": "icon.png",
@@ -14,7 +14,7 @@
     "connections_manage": true
   },
   "runtime": {
-    "imports": ["react", "react-dom"],
+    "imports": ["react", "react-dom", "@openai/apps-sdk-ui/components/Icon"],
     "esm_deps": []
   },
   "skills": ["connections.md"],

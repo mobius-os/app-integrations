@@ -1,4 +1,4 @@
-// Connections — remote MCP services shared by both agent runtimes.
+// Integrations — remote MCP services shared by both agent runtimes.
 // The platform owns keys, health probes, and per-turn wiring; this app is the
 // owner's management surface: list, add, re-check, toggle, remove, and a
 // curated set of suggestions worth adding.
@@ -10,6 +10,7 @@
 // background list refresh (window focus), so form fields would clear the
 // moment the owner returned from another tab.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowLeft, WebsiteNetwork } from '@openai/apps-sdk-ui/components/Icon'
 import { CSS } from './theme.js'
 import {
   addConnection,
@@ -100,12 +101,22 @@ function closePopup(popup) {
 // ── screens (module-level; see header comment) ─────────────────────────────
 
 function Header({ ctx, title, subtitle, back, right }) {
+  const [iconFailed, setIconFailed] = useState(false)
   return (
     <header className="cx-header">
       <div className="cx-brand">
-        {back && (
+        {back ? (
           <button type="button" className="cx-back" aria-label="Back"
-            onClick={() => ctx.open(back)}>‹</button>
+            onClick={() => ctx.open(back)}>
+            <ArrowLeft width={18} height={18} aria-hidden="true" />
+          </button>
+        ) : !iconFailed ? (
+          <img className="cx-brand-icon" src={`/api/apps/${ctx.appId}/icon?size=64`}
+            width={34} height={34} alt="" onError={() => setIconFailed(true)} />
+        ) : (
+          <span className="cx-brand-fallback" aria-hidden="true">
+            <WebsiteNetwork width={19} height={19} />
+          </span>
         )}
         <div className="cx-brand-text">
           <h1 className="cx-title">{title}</h1>
@@ -126,7 +137,7 @@ function ListScreen({ ctx }) {
     <>
       <Header
         ctx={ctx}
-        title="Connections"
+        title="Integrations"
         subtitle={rows.length
           ? `${enabledCount} of ${rows.length} available to your agent`
           : 'Remote services for your agent'}
@@ -148,26 +159,28 @@ function ListScreen({ ctx }) {
       <div className="cx-scroll">
         {permissionBlocked ? (
           <div className="cx-notice cx-notice--accent">
-            This app's access to connections isn't active yet — a platform
+            This app's access to integrations isn't active yet — a platform
             restart applies it. Everything else here works read-only until
             then.
           </div>
         ) : loadError && connections === null ? (
           <div className="cx-notice cx-notice--danger">
-            Couldn't load connections
+            Couldn't load integrations
             {loadError.message ? ` — ${loadError.message}` : ''}.{' '}
             <button type="button" className="cx-linklike" onClick={load}>
               Try again
             </button>
           </div>
         ) : connections === null ? (
-          <div className="cx-notice" role="status">Loading connections…</div>
+          <div className="cx-notice" role="status">Loading integrations…</div>
         ) : rows.length === 0 ? (
           <div className="cx-empty">
-            <div className="cx-empty-glyph">⚯</div>
-            <p className="cx-empty-title">No connections yet</p>
+            <div className="cx-empty-glyph" aria-hidden="true">
+              <WebsiteNetwork width={30} height={30} />
+            </div>
+            <p className="cx-empty-title">No integrations yet</p>
             <p>
-              A connection gives your agent a new remote capability — search,
+              An integration gives your agent a new remote capability — search,
               docs, scraping — usable from every chat on both runtimes.
             </p>
             <button type="button" className="cx-btn cx-btn--primary"
@@ -362,7 +375,7 @@ function DetailScreen({ ctx }) {
           <div className="cx-confirm">
             <button type="button" className="cx-btn cx-btn--danger"
               disabled={pending} onClick={() => remove(connection)}>
-              Remove connection
+              Remove integration
             </button>
             <button type="button" className="cx-btn"
               disabled={pending} onClick={() => setConfirmRemove(null)}>
@@ -458,7 +471,7 @@ function AddScreen({ ctx }) {
       await load()
       open({ name: 'list' })
     } catch (submitError) {
-      setError(submitError.message || 'Could not add the connection')
+      setError(submitError.message || 'Could not add the integration')
     } finally {
       setSaving(false)
     }
@@ -468,7 +481,7 @@ function AddScreen({ ctx }) {
     <>
       <Header
         ctx={ctx}
-        title={prefill ? `Add ${prefill.name}` : 'Add a connection'}
+        title={prefill ? `Add ${prefill.name}` : 'Add an integration'}
         subtitle="Checked live before it saves"
         back={prefill ? { name: 'suggestions' } : { name: 'list' }}
       />
@@ -1221,7 +1234,7 @@ function SuggestionsScreen({ ctx }) {
   )
 }
 
-export default function Connections({ appId, token }) {
+export default function Integrations({ appId, token }) {
   const [connections, setConnections] = useState(null) // null = first load
   const [loadError, setLoadError] = useState(null)
   const [view, setView] = useState({ name: 'list' })
@@ -1457,7 +1470,7 @@ export default function Connections({ appId, token }) {
   const permissionBlocked = loadError && loadError.status === 403
 
   const ctx = {
-    token, rows, connections, loadError, permissionBlocked, enabledCount,
+    appId, token, rows, connections, loadError, permissionBlocked, enabledCount,
     view, open, load, pending, actionError, confirmRemove, setConfirmRemove,
     probingId, signingInId, byId, addedUrls, iconByUrl,
     toggle, recheck, signIn, disconnect, removeClientCredentials,

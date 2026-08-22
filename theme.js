@@ -1,9 +1,9 @@
-// Connections — scoped stylesheet (JS template literal; keep backticks out).
+// Integrations — scoped stylesheet (JS template literal; keep backticks out).
 // Inherits the shell's design tokens: --bg --surface --surface2 --border
 // --text --muted --accent --accent-fg --green --danger --font.
 export const CSS = `
 .cx-root { position: relative; display: flex; flex-direction: column; height: 100%; width: 100%;
-  max-width: 100%; overflow: hidden; background: var(--bg); color: var(--text);
+  max-width: 760px; margin-inline: auto; overflow: hidden; background: var(--bg); color: var(--text);
   font-family: var(--font); -webkit-font-smoothing: antialiased; }
 .cx-scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 14px 16px 40px;
   display: flex; flex-direction: column; gap: 10px; word-break: break-word; overflow-wrap: anywhere; }
@@ -13,6 +13,11 @@ export const CSS = `
   gap: 12px; min-height: 48px; padding: max(12px, env(safe-area-inset-top)) 16px 12px;
   background: var(--surface); border-bottom: 1px solid var(--border); }
 .cx-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.cx-brand-icon { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 8px;
+  object-fit: contain; display: block; }
+.cx-brand-fallback { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 8px;
+  display: grid; place-items: center; color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent); }
 .cx-back { flex: 0 0 auto; min-width: 40px; min-height: 40px; border: 0; border-radius: 10px;
   background: transparent; color: var(--muted); font-size: 19px; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; }
@@ -68,7 +73,10 @@ export const CSS = `
 
 .cx-empty { display: flex; flex-direction: column; align-items: center; gap: 10px;
   padding: 44px 24px; text-align: center; color: var(--muted); }
-.cx-empty-glyph { font-size: 34px; opacity: .8; }
+.cx-empty-glyph { width: 64px; height: 64px; display: grid; place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  border-radius: 18px; color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent); opacity: 1; }
 .cx-empty-title { font-size: 15px; font-weight: 650; color: var(--text); margin: 0; }
 .cx-empty p { margin: 0; font-size: 13px; line-height: 1.5; max-width: 340px; }
 
