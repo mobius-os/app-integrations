@@ -11,7 +11,7 @@ A connection is a remote MCP service the owner added once, made available to
 BOTH agent runtimes in the owner's own chats. The platform holds any API key
 encrypted, probes the service before saving, and wires enabled+healthy
 connections into each turn. App-attributed chats and delegated sub-runs never
-receive them. The Connections app (slug `connections`) is the owner's
+receive them. The Integrations app (slug `connections`) is the owner's
 management surface; open it in the workspace when the partner wants to look.
 
 ## Inspecting and managing from chat
@@ -48,7 +48,7 @@ curl -s -X POST "$API_BASE_URL/api/connectors" \
 ## Rules
 
 - **Keys never travel through chat.** When a service needs an API key, open
-  the Connections app for the partner and have them enter it there — the add
+  the Integrations app for the partner and have them enter it there — the add
   form stores it encrypted. Do not ask the partner to paste a key into the
   conversation.
 - **Removing a connection is destructive** — confirm in the partner's own
@@ -69,7 +69,7 @@ curl -s -X POST "$API_BASE_URL/api/connectors" \
   different Google account. The selected project may still need that service's
   API enabled and appropriate IAM permissions before real tool calls work.
   Other providers that cannot register automatically may still need the
-  partner's own OAuth app; the Connections app guides that setup. Point the
+  partner's own OAuth app; the Integrations app guides that setup. Point the
   partner at the app: sign-in codes and OAuth client credentials never travel
   through chat.
 - **A newly added or re-enabled connection applies from the NEXT chat turn**,

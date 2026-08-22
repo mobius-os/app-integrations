@@ -48,7 +48,7 @@ async function jsonOrThrow(res, fallback) {
 
 export async function listConnections(token) {
   const res = await request('/api/connectors', { token })
-  const body = await jsonOrThrow(res, 'Could not load connections')
+  const body = await jsonOrThrow(res, 'Could not load integrations')
   return Array.isArray(body?.connectors) ? body.connectors : []
 }
 
@@ -61,7 +61,7 @@ export async function addConnection(token, payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
-  return jsonOrThrow(res, 'Could not add the connection')
+  return jsonOrThrow(res, 'Could not add the integration')
 }
 
 export async function updateConnection(token, id, generation, patch) {
@@ -75,7 +75,7 @@ export async function updateConnection(token, id, generation, patch) {
     },
     body: JSON.stringify(patch),
   })
-  return jsonOrThrow(res, 'Could not update the connection')
+  return jsonOrThrow(res, 'Could not update the integration')
 }
 
 export async function recheckConnection(token, id, generation) {
@@ -85,7 +85,7 @@ export async function recheckConnection(token, id, generation) {
     timeoutMs: 25000,
     headers: { [GENERATION_HEADER]: generation },
   })
-  return jsonOrThrow(res, 'Could not re-check the connection')
+  return jsonOrThrow(res, 'Could not re-check the integration')
 }
 
 export async function removeConnection(token, id, generation) {
@@ -95,7 +95,7 @@ export async function removeConnection(token, id, generation) {
     timeoutMs: 15000,
     headers: { [GENERATION_HEADER]: generation },
   })
-  return jsonOrThrow(res, 'Could not remove the connection')
+  return jsonOrThrow(res, 'Could not remove the integration')
 }
 
 // Sign-in: the platform builds the provider authorization URL (tokens never

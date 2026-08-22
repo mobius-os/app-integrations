@@ -1,6 +1,6 @@
-# Connections
+# Integrations
 
-The management surface for Möbius's owner-managed MCP connections: add a
+The management surface for Möbius's owner-managed MCP integrations: add a
 remote MCP service once and both agent runtimes can use it in the owner's
 own chats — with live health, honest per-message cost, and a curated
 suggestions catalog built from providers' published endpoints.
