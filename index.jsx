@@ -104,6 +104,7 @@ function Header({ ctx, title, subtitle, back, right }) {
   const [iconFailed, setIconFailed] = useState(false)
   return (
     <header className="cx-header">
+      <div className="cx-header-inner">
       <div className="cx-brand">
         {back ? (
           <button type="button" className="cx-back" aria-label="Back"
@@ -124,6 +125,7 @@ function Header({ ctx, title, subtitle, back, right }) {
         </div>
       </div>
       <div className="cx-header-right">{right}</div>
+      </div>
     </header>
   )
 }

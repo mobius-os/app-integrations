@@ -3,15 +3,17 @@
 // --text --muted --accent --accent-fg --green --danger --font.
 export const CSS = `
 .cx-root { position: relative; display: flex; flex-direction: column; height: 100%; width: 100%;
-  max-width: 760px; margin-inline: auto; overflow: hidden; background: var(--bg); color: var(--text);
+  overflow: hidden; background: var(--bg); color: var(--text);
   font-family: var(--font); -webkit-font-smoothing: antialiased; }
 .cx-scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 14px 16px 40px;
+  width: 100%; max-width: 760px; margin-inline: auto;
   display: flex; flex-direction: column; gap: 10px; word-break: break-word; overflow-wrap: anywhere; }
 .cx-scroll > * { flex-shrink: 0; }
 
 .cx-header { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; min-height: 48px; padding: max(12px, env(safe-area-inset-top)) 16px 12px;
-  background: var(--surface); border-bottom: 1px solid var(--border); }
+  min-height: 48px; background: var(--bg); border-bottom: 1px solid var(--border); }
+.cx-header-inner { width: 100%; max-width: 760px; margin-inline: auto; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; padding: max(12px, env(safe-area-inset-top)) 16px 12px; }
 .cx-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
 .cx-brand-icon { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 8px;
   object-fit: contain; display: block; }
@@ -177,4 +179,22 @@ export const CSS = `
 
 .cx-confirm { display: flex; gap: 8px; align-items: center; }
 .cx-confirm .cx-btn { flex: 1; }
+
+/* mobius-ui:CenteredRail v1 */
+@media (min-width: 900px) {
+  .cx-root {
+    background: radial-gradient(ellipse 62% 88% at 50% 48%,
+      color-mix(in srgb, var(--accent) 9%, var(--surface)) 0%,
+      color-mix(in srgb, var(--accent) 3%, var(--surface)) 38%,
+      var(--surface) 100%);
+  }
+  .cx-root::before {
+    content: ""; position: absolute; inset-block: 0; left: 50%;
+    width: min(100%, 760px); transform: translateX(-50%);
+    background: var(--bg); pointer-events: none;
+  }
+  .cx-header { width: min(100%, 760px); margin-inline: auto; }
+
+}
+/* /mobius-ui:CenteredRail */
 `
