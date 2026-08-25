@@ -1183,6 +1183,7 @@ function SuggestionsScreen({ ctx }) {
           className="cx-search"
           placeholder="Search suggestions…"
           aria-label="Search suggestions"
+          autoFocus
           value={query}
           onChange={event => setQuery(event.target.value)}
         />
