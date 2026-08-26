@@ -141,7 +141,7 @@ function ListScreen({ ctx }) {
         ctx={ctx}
         title="Integrations"
         subtitle={rows.length
-          ? `${enabledCount} of ${rows.length} available to your agent`
+          ? `${enabledCount} active · ${rows.length} total`
           : 'Remote services for your agent'}
         right={(
           <>
