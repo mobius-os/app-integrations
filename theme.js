@@ -11,9 +11,10 @@ export const CSS = `
 .cx-scroll > * { flex-shrink: 0; }
 
 .cx-header { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
-  min-height: 48px; background: var(--bg); border-bottom: 1px solid var(--border); }
-.cx-header-inner { width: 100%; max-width: 760px; margin-inline: auto; display: flex; align-items: center;
+  min-height: 48px; background: var(--bg); }
+.cx-header-inner { position: relative; width: 100%; max-width: 760px; margin-inline: auto; display: flex; align-items: center;
   justify-content: space-between; gap: 12px; padding: max(12px, env(safe-area-inset-top)) 16px 12px; }
+.cx-header-inner::after { content: ''; position: absolute; inset-inline: 16px; bottom: 0; height: 1px; background: var(--border); }
 .cx-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
 .cx-brand-icon { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 8px;
   object-fit: contain; display: block; }
