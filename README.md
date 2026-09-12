@@ -13,11 +13,11 @@ permission — it manages rows without ever holding what they protect.
 
 ## What it does
 
-- **List** every connection with health, tool count, and an estimated
+- **List** every integration with health, tool count, and an estimated
   tool-schema cost per message (one runtime pays that cost on every message
   while a connection is enabled; the other defers loading).
-- **Detail view** per connection: tools, cost, last-check outcome. Opening a
-  card refreshes its status quietly in the background; a failing connection
+- **Detail view** per integration: tools, cost, last-check outcome. Opening a
+  card refreshes its status quietly in the background; a failing integration
   gets an explicit "Check again" as its recovery action.
 - **Add** by address, optionally with a static API key entered in the form
   and stored encrypted by the platform. Every add is probed live before it
@@ -27,16 +27,16 @@ permission — it manages rows without ever holding what they protect.
   stale or unavailable entry fails safely; icons are each service's own
   published favicon, fetched at curation time and shipped inline (app frames
   rightly refuse runtime loads from external hosts).
-- **Agent skill** (`connections.md`): how the in-product agent inspects,
-  adds, and reasons about connections conversationally — including the rule
+- **Agent skill** (`integrations.md`): how the in-product agent inspects,
+  adds, and reasons about integrations conversationally — including the rule
   that keys go through the app's form, never through chat.
 
 ## Requirements
 
 A Möbius platform with the `connections_manage` app permission
 (`connections_manage` column + `/api/connectors` app-token gate). Fresh
-installs bootstrap this app automatically alongside Store, Memory, and
-Reflection.
+installs bootstrap this app automatically alongside App Store, Skills, Memory,
+Reflection, Möbius · You, and Social.
 
 ## Development
 
