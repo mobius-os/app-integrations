@@ -1,10 +1,13 @@
 {
-  "id": "connections",
+  "id": "integrations",
   "name": "Integrations",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Give your agents new tools through MCP integrations — with live health, honest per-message cost, and curated suggestions.",
   "author": "mobius-os",
   "license": "MIT",
+  "homepage": "https://github.com/mobius-os/app-integrations",
+  "previous_id": "connections",
+  "previous_manifest_url": "https://raw.githubusercontent.com/mobius-os/app-connections/main/mobius.json",
   "icon": "icon.png",
   "entry": "index.jsx",
   "offline_capable": false,
@@ -17,12 +20,12 @@
     "imports": ["react", "react-dom", "@openai/apps-sdk-ui/components/Icon"],
     "esm_deps": []
   },
-  "skills": ["connections.md"],
+  "skills": ["integrations.md"],
   "source_files": [
     "theme.js",
     "api.js",
     "suggestions.js",
-    "connections.md",
+    "integrations.md",
     "icon.png"
   ]
 }
