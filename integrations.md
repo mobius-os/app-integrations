@@ -20,7 +20,7 @@ The registry API works with the agent token. Responses never contain stored
 keys.
 
 ```bash
-curl -s -H "Authorization: Bearer $AGENT_TOKEN" "$API_BASE_URL/api/connectors" | python3 -m json.tool
+mapi /api/connectors | python3 -m json.tool
 ```
 
 Each row: `name`, `url`, `enabled`, `status` (`ok`/`error`), `status_detail`,
@@ -29,19 +29,17 @@ the generation in a header — re-list first, then:
 
 ```bash
 # Toggle / rename
-curl -s -X PATCH "$API_BASE_URL/api/connectors/<id>" \
-  -H "Authorization: Bearer $AGENT_TOKEN" \
+mapi -X PATCH /api/connectors/<id> \
   -H "X-Mobius-Connector-Generation: <generation>" \
   -H "Content-Type: application/json" -d '{"enabled": false}'
 
 # Re-check health (also refreshes tools and the cost estimate)
-curl -s -X POST "$API_BASE_URL/api/connectors/<id>/refresh" \
-  -H "Authorization: Bearer $AGENT_TOKEN" \
+mapi -X POST /api/connectors/<id>/refresh \
   -H "X-Mobius-Connector-Generation: <generation>"
 
 # Add a keyless service (the platform probes it live before saving)
-curl -s -X POST "$API_BASE_URL/api/connectors" \
-  -H "Authorization: Bearer $AGENT_TOKEN" -H "Content-Type: application/json" \
+mapi -X POST /api/connectors \
+  -H "Content-Type: application/json" \
   -d '{"url": "https://mcp.example.com/mcp", "name": ""}'
 ```
 
