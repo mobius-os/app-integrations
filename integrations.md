@@ -1,9 +1,10 @@
 # Managing MCP integrations
 
 Read this when the partner asks to add, check, disable, remove, or reason
-about a remote MCP connection ("connect Context7", "why is Firecrawl missing
-tools", "what is this costing me"), or when a chat would clearly benefit from
-a capability a known MCP service provides.
+about a remote MCP connection ("connect my calendar", "hook up my notes app",
+"why can't you see my Drive files", "add Context7 for coding docs", "what is
+this costing me"), or when a chat would clearly benefit from a capability a
+known MCP service provides.
 
 ## What an integration is
 
@@ -72,5 +73,5 @@ mapi -X POST /api/connectors \
   through chat.
 - **A newly added or re-enabled connection applies from the NEXT chat turn**,
   not mid-turn.
-- If every management call answers 403, the platform likely needs a restart
-  to activate the connections permission — say so instead of retrying.
+- If a management call is refused (403), tell the partner what the response
+  says instead of retrying.
