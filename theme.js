@@ -37,7 +37,7 @@ export const CSS = `
   font-weight: 650; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
   gap: 6px; transition: background .15s, color .15s, border-color .15s, opacity .15s; }
 .cx-btn:disabled { opacity: .55; cursor: default; }
-.cx-btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg, #fff); }
+.cx-btn--primary { background: var(--accent-fill, var(--accent)); border-color: var(--accent-fill, var(--accent)); color: var(--accent-fg); }
 .cx-btn--danger { background: color-mix(in srgb, var(--danger) 14%, transparent);
   border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); color: var(--danger); }
 .cx-btn--ghost { background: transparent; }
